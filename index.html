@@ -1,0 +1,575 @@
+<!-- ⚡ Alan Chatbot — Neon Edition with Logo -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alan Chatbot - Themed</title>
+  <!-- Google Fonts - Electrolize for a modern, futuristic look -->
+  <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+  <style>
+    /* ------------------- CSS Variables for Theming ------------------- */
+    :root { /* Default Neon Theme Variables */
+      --bg-color: #0f0f1a;
+      --text-color: white;
+      --chat-container-bg: #141422;
+      --chat-container-shadow: 0 0 30px rgba(0,255,255,0.2);
+      --header-bg: #010e22;
+      --header-text-color: #00ffff;
+      --header-text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff;
+      --history-bg: #0f0f1a;
+      --input-area-bg: #010e22;
+      --input-bg: #222;
+      --input-text-color: white;
+      --input-shadow: 0 0 5px rgba(0,255,255,0.3);
+      --input-focus-shadow: 0 0 10px #00ffff;
+      --user-bubble-bg: #00ffff;
+      --user-bubble-text: black;
+      --bot-bubble-bg: #ff00ff;
+      --bot-bubble-text: white;
+      --bubble-shadow: 0 0 8px rgba(255,0,255,0.4);
+      --control-btn-bg: #ff00ff; /* Default for most buttons */
+      --control-btn-hover-bg: #cc00cc;
+      --control-btn-text: white;
+      --mic-btn-bg: #00ffff;
+      --mic-btn-text: black;
+      --mic-btn-listening-bg: #ff4500;
+      --mic-btn-listening-shadow: 0 0 15px #ff4500;
+      --avatar-border: 2px solid #00ffff;
+      --avatar-shadow: 0 0 8px rgba(0,255,255,0.5);
+      --status-bg: #1a1a2e;
+      --status-text-color: white;
+      --status-shadow: 0 0 5px rgba(0,255,255,0.2);
+      --logo-animation: pulseGlow 2s infinite;
+    }
+
+    /* ------------------- Dark Theme ------------------- */
+    body.dark-theme {
+      --bg-color: #1a1a1a;
+      --text-color: #e0e0e0;
+      --chat-container-bg: #282828;
+      --chat-container-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      --header-bg: #333333;
+      --header-text-color: #ffffff;
+      --header-text-shadow: none;
+      --history-bg: #1e1e1e;
+      --input-area-bg: #333333;
+      --input-bg: #444;
+      --input-text-color: #e0e0e0;
+      --input-shadow: none;
+      --input-border: 1px solid #555;
+      --input-focus-shadow: none;
+      --user-bubble-bg: #4a4a4a;
+      --user-bubble-text: #e0e0e0;
+      --bot-bubble-bg: #3a3a3a;
+      --bot-bubble-text: #e0e0e0;
+      --bubble-shadow: none;
+      --control-btn-bg: #555;
+      --control-btn-hover-bg: #666;
+      --control-btn-text: #e0e0e0;
+      --mic-btn-bg: #555; /* Consistent with other buttons */
+      --mic-btn-text: #e0e0e0;
+      --mic-btn-listening-bg: #ff4500; /* Keep distinct for listening */
+      --mic-btn-listening-shadow: 0 0 10px #ff4500;
+      --avatar-border: 2px solid #777;
+      --avatar-shadow: none;
+      --status-bg: #2a2a2a;
+      --status-text-color: #e0e0e0;
+      --status-shadow: none;
+      --logo-animation: none; /* No pulse glow in dark theme */
+    }
+
+    /* ------------------- Light Theme ------------------- */
+    body.light-theme {
+      --bg-color: #f0f2f5;
+      --text-color: #333333;
+      --chat-container-bg: #ffffff;
+      --chat-container-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --header-bg: #4a90e2;
+      --header-text-color: white;
+      --header-text-shadow: none;
+      --history-bg: #f8f9fa;
+      --input-area-bg: #ffffff;
+      --input-bg: #f0f2f5;
+      --input-text-color: #333333;
+      --input-shadow: none;
+      --input-border: 1px solid #ccc;
+      --input-focus-shadow: none;
+      --user-bubble-bg: #e0f2fe;
+      --user-bubble-text: #333333;
+      --bot-bubble-bg: #f0f0f0;
+      --bot-bubble-text: #333333;
+      --bubble-shadow: none;
+      --control-btn-bg: #e0e0e0;
+      --control-btn-hover-bg: #d0d0d0;
+      --control-btn-text: #333333;
+      --mic-btn-bg: #a0c4ff;
+      --mic-btn-text: #333333;
+      --mic-btn-listening-bg: #ff8c00; /* Different orange for listening */
+      --mic-btn-listening-shadow: 0 0 10px #ff8c00;
+      --avatar-border: 2px solid #4a90e2;
+      --avatar-shadow: none;
+      --status-bg: #e6e6e6;
+      --status-text-color: #333333;
+      --status-shadow: none;
+      --logo-animation: none; /* No pulse glow in light theme */
+    }
+
+    /* ------------------- General Styles (using variables) ------------------- */
+    body {
+      font-family:'Electrolize', sans-serif;
+      background-color:var(--bg-color);
+      color:var(--text-color);
+      transition: background-color 0.5s ease, color 0.5s ease; /* Smooth theme transition */
+      font-size: 0.95rem; /* Adjusted base font size */
+      margin: 0;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* Center content vertically */
+      box-sizing: border-box; /* Include padding in total size */
+    }
+
+    .chat-container {
+      background-color:var(--chat-container-bg);
+      box-shadow:var(--chat-container-shadow);
+      transition: background-color 0.5s ease, box-shadow 0.5s ease;
+      /* Adjusted to match screenshot more closely */
+      width: 100%; /* Take full width on smaller screens */
+      max-width: 680px; /* Increased max width for chat container */
+      height: 80vh; /* Adjusted height for chat container */
+      display: flex;
+      flex-direction: column;
+      border-radius:1rem;
+      overflow:hidden;
+    }
+    #chat-header {
+      background-color:var(--header-bg);
+      color:var(--header-text-color);
+      text-shadow:var(--header-text-shadow);
+      transition: background-color 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
+      padding: 1rem; /* Adjusted padding */
+      font-size: 1.25rem; /* Adjusted header font size */
+      text-align: center;
+      font-weight: bold;
+    }
+    #chat-history {
+      background-color:var(--history-bg);
+      transition: background-color 0.5s ease;
+      flex-grow: 1; /* Allows it to take available space */
+      padding: 1rem; /* Adjusted padding */
+      overflow-y: auto; /* Enable scrolling */
+    }
+    .chat-input-area {
+      display: flex;
+      align-items: center; /* Vertically align items in the input area */
+      gap: 0.75rem; /* Adjusted gap between input and button */
+      padding: 1rem; /* Adjusted padding */
+      background-color:var(--input-area-bg);
+      transition: background-color 0.5s ease;
+    }
+    #user-input {
+      flex-grow:1;
+      padding:1rem 1.25rem; /* Increased padding for height and horizontal space */
+      border-radius:0.5rem;
+      border:var(--input-border, none); /* Use border variable or none if not set */
+      background-color:var(--input-bg);
+      color:var(--input-text-color);
+      box-shadow:var(--input-shadow);
+      transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+      font-size: 1.1rem; /* Increased input font size */
+    }
+    #user-input:focus {
+      outline:none;
+      box-shadow:var(--input-focus-shadow);
+      border-color:var(--header-text-color, var(--input-border)); /* Use header color for focus if available */
+    }
+
+    .message-bubble {
+      color:var(--message-bubble-text, var(--text-color)); /* Default to text-color if specific not set */
+      box-shadow:var(--bubble-shadow);
+      transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+      padding: 0.6rem 1rem; /* Adjusted padding */
+      font-size: 0.95rem; /* Adjusted bubble font size */
+      border-radius: 0.75rem; /* General rounded corners */
+    }
+    .message-user .message-bubble {
+      background-color:var(--user-bubble-bg);
+      color:var(--user-bubble-text);
+      /* Specific rounded corners for user bubble */
+      border-radius: 0.75rem 0.75rem 0 0.75rem;
+    }
+    .message-bot .message-bubble {
+      background-color:var(--bot-bubble-bg);
+      color:var(--bot-bubble-text);
+      /* Specific rounded corners for bot bubble */
+      border-radius: 0.75rem 0.75rem 0.75rem 0;
+    }
+
+    .control-button {
+      font-family:'Electrolize', sans-serif;
+      color:var(--control-btn-text);
+      background-color:var(--control-btn-bg);
+      box-shadow:var(--control-btn-shadow, 0 0 10px rgba(0,255,255,0.5)); /* Default neon glow */
+      transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+      padding: 0.5rem 1rem; /* Adjusted padding */
+      font-size: 1rem; /* Adjusted button font size */
+      border-radius:0.5rem;
+      border:none;
+      cursor:pointer;
+    }
+    .control-button:hover {
+      background-color:var(--control-btn-hover-bg);
+    }
+    #voice-toggle {
+      background-color:var(--voice-btn-bg, var(--control-btn-bg));
+      color:var(--control-btn-text);
+    }
+    #mic-button {
+      background-color:var(--mic-btn-bg);
+      color:var(--mic-btn-text);
+    }
+    #mic-button.listening {
+      background-color: #ff4500; /* Orange-red when listening */
+      box-shadow: var(--mic-btn-listening-shadow);
+    }
+    #send-button {
+      background-color:var(--send-btn-bg, var(--control-btn-bg));
+      color:var(--control-btn-text);
+      /* Adjusted padding and font size to match input box height from screenshot */
+      padding: 1rem 1.5rem; /* This makes it match the input height */
+      font-size: 1.1rem; /* Match input font size */
+      border-radius:0.5rem; /* Ensure consistent rounded corners */
+    }
+
+    .avatar {
+      width: 40px; /* Adjusted avatar size */
+      height: 40px; /* Adjusted avatar size */
+      border-radius: 50%; /* Make it circular */
+      object-fit: cover;
+      border:var(--avatar-border);
+      box-shadow:var(--avatar-shadow);
+      transition: border-color 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .status-message {
+        background-color:var(--status-bg);
+        color:var(--status-text-color);
+        box-shadow:var(--status-shadow);
+        transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+        padding: 0.5rem; /* Adjusted padding */
+        font-size: 0.85rem; /* Adjusted status message font size */
+        text-align: center;
+        font-style: italic;
+        border-radius: 0.5rem;
+    }
+    .status-message.hidden {
+        display: none;
+    }
+
+    /* Pulse animation for logo (only active in neon theme) */
+    @keyframes pulseGlow {
+      0%   { transform: scale(1); filter: drop-shadow(0 0 5px #00ffff); }
+      50%  { transform: scale(1.05); filter: drop-shadow(0 0 15px #00ffff); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 5px #00ffff); }
+    }
+    #alan-logo {
+        animation: var(--logo-animation); /* Apply animation via variable */
+        width: 80px; /* Adjusted logo size */
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        height: auto;
+        z-index: 1000;
+        opacity: 0.95;
+        pointer-events: none; /* Allows clicks to pass through to elements behind it */
+    }
+
+    /* General layout for chat rows */
+    .chat-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.75rem; /* Adjusted margin between rows */
+    }
+    .chat-row.user {
+      justify-content: flex-end;
+    }
+    .chat-row.bot {
+      justify-content: flex-start;
+    }
+    .chat-row.user .avatar {
+      order: 2; /* User avatar on right */
+      margin-left: 0.5rem;
+    }
+    .chat-row.bot .avatar {
+      order: 1; /* Bot avatar on left */
+      margin-right: 0.5rem;
+    }
+    .chat-row.user .message-bubble {
+      order: 1; /* User bubble on left of their avatar */
+    }
+    .chat-row.bot .message-bubble {
+      order: 2; /* Bot bubble on right of their avatar */
+    }
+
+    /* Controls container styling */
+    .controls-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+  <!-- Controls -->
+  <div class="controls-container">
+    <select id="theme-toggle" class="control-button">
+      <option value="neon">Neon Theme</option>
+      <option value="dark">Dark Theme</option>
+      <option value="light">Light Theme</option>
+    </select>
+    <select id="personality-toggle" class="control-button">
+      <option value="friendly">Friendly</option>
+      <option value="sassy">Sassy</option>
+      <option value="formal">Formal</option>
+    </select>
+    <button id="voice-toggle" class="control-button">🎙️ Voice: Off</button>
+    <button id="mic-button" class="control-button">🎤 Speak</button>
+  </div>
+
+  <!-- Chat Container -->
+  <div id="chat-container">
+    <div id="chat-header" class="neon-glow">Alan Chatbot</div>
+    <div id="chat-history"></div>
+    <div class="chat-input-area">
+      <input id="user-input" type="text" placeholder="Type your message...">
+      <button id="send-button" class="control-button">Send ✨</button>
+    </div>
+    <div id="status-message" class="status-message hidden"></div>
+  </div>
+
+  <!-- Logo in Corner -->
+  <img id="alan-logo" src="http://googleusercontent.com/file_content/2" alt="Alan Logo" />
+
+  <script>
+    const chatHistory = document.getElementById("chat-history");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const personalityToggle = document.getElementById("personality-toggle");
+    const voiceToggle = document.getElementById("voice-toggle");
+    const micButton = document.getElementById("mic-button");
+    const statusMessageDiv = document.getElementById("status-message");
+    const themeToggle = document.getElementById("theme-toggle");
+
+    let voiceEnabled = false;
+    const userAvatar = "https://placehold.co/40x40/00ffff/000000?text=U"; // Placeholder for user
+    const botAvatar = "https://placehold.co/40x40/ff00ff/000000?text=A"; // Placeholder for bot
+
+    // --- Backend Configuration ---
+    const PYTHON_BACKEND_URL = 'http://127.0.0.1:5000/chat';
+
+    // --- Theme Management ---
+    function applyTheme(themeName) {
+        document.body.classList.remove('dark-theme', 'light-theme'); // Remove existing themes
+        if (themeName === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else if (themeName === 'light') {
+            document.body.classList.add('light-theme');
+        }
+        // Save preference to local storage
+        localStorage.setItem('alanChatTheme', themeName);
+    }
+
+    // Load saved theme on page load
+    const savedTheme = localStorage.getItem('alanChatTheme') || 'neon'; // Default to 'neon'
+    themeToggle.value = savedTheme; // Set dropdown to saved theme
+    applyTheme(savedTheme); // Apply the saved theme
+
+    // Event listener for theme toggle
+    themeToggle.addEventListener('change', (event) => {
+        applyTheme(event.target.value);
+    });
+
+    // Initialize the bot with a greeting
+    addMessage("Hello! I'm Alan. How can I help you today?", "bot", botAvatar);
+
+    // --- Utility Functions ---
+    function showStatusMessage(message) {
+        statusMessageDiv.textContent = message;
+        statusMessageDiv.classList.remove('hidden');
+    }
+
+    function hideStatusMessage() {
+        statusMessageDiv.classList.add('hidden');
+    }
+
+    voiceToggle.onclick = () => {
+      voiceEnabled = !voiceEnabled;
+      voiceToggle.textContent = voiceEnabled ? "🎙️ Voice: On" : "🎙️ Voice: Off";
+      if (voiceEnabled) {
+          speak("Voice enabled.");
+      } else {
+          speechSynthesis.cancel(); // Stop any ongoing speech
+      }
+    };
+
+    function speak(text) {
+      if (!voiceEnabled) return;
+      if (speechSynthesis.speaking) {
+          speechSynthesis.cancel();
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.pitch = 1;
+      utterance.rate = 1;
+      speechSynthesis.speak(utterance);
+    }
+
+    function addMessage(text, sender, avatar) {
+      const row = document.createElement("div");
+      row.classList.add("chat-row", sender === "user" ? "user" : "bot");
+
+      const img = document.createElement("img");
+      img.src = avatar;
+      img.alt = sender === "user" ? "User Avatar" : "Bot Avatar";
+      img.classList.add("avatar");
+
+      const bubble = document.createElement("div");
+      bubble.textContent = text;
+      bubble.classList.add("message-bubble");
+      
+      if (sender === "user") {
+        row.appendChild(bubble);
+        row.appendChild(img);
+      } else {
+        row.appendChild(img);
+        row.appendChild(bubble);
+      }
+      
+      chatHistory.appendChild(row);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    // Function to handle sending messages to the Python backend
+    sendButton.onclick = async () => {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user", userAvatar);
+      userInput.value = ""; // Clear input immediately
+
+      userInput.disabled = true; // Disable input while bot is thinking
+      sendButton.disabled = true;
+      micButton.disabled = true;
+      showStatusMessage("Alan is thinking...");
+
+      const tone = personalityToggle.value;
+
+      try {
+          const payload = {
+              message: text,
+              personality: tone
+          };
+
+          const response = await fetch(PYTHON_BACKEND_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(`Backend error: ${response.status} ${response.statusText} - ${errorData.error || 'Unknown error'}`);
+          }
+
+          const data = await response.json();
+          const botResponse = data.response;
+
+          setTimeout(() => {
+            addMessage(botResponse, "bot", botAvatar);
+            speak(botResponse);
+            userInput.disabled = false;
+            sendButton.disabled = false;
+            micButton.disabled = false;
+            hideStatusMessage();
+            userInput.focus();
+          }, 600); // Simulate thinking time
+      } catch (error) {
+          console.error("Error communicating with Python backend:", error);
+          addMessage("Oops! I can't connect to Alan right now. Make sure the Python server is running!", 'bot', botAvatar);
+          userInput.disabled = false;
+          sendButton.disabled = false;
+          micButton.disabled = false;
+          hideStatusMessage();
+          userInput.focus();
+      }
+    };
+
+    userInput.onkeypress = e => {
+      if (e.key === "Enter") sendButton.click();
+    };
+
+    micButton.onclick = () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        addMessage("Speech recognition not supported in this browser.", "bot", botAvatar);
+        speak("Speech recognition not supported in this browser.");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        micButton.classList.add('listening');
+        micButton.textContent = 'Listening...';
+        console.log('Speech recognition started...');
+        userInput.disabled = true;
+        sendButton.disabled = true;
+      };
+
+      recognition.onresult = e => {
+        const transcript = e.results[0][0].transcript;
+        userInput.value = transcript;
+        sendButton.click();
+      };
+
+      recognition.onerror = e => {
+        console.error('Speech recognition error:', e.error);
+        addMessage(`Mic error: ${e.error}. Please try again or check permissions.`, "bot", botAvatar);
+        speak(`Mic error: ${e.error}. Please try again or check permissions.`);
+        micButton.classList.remove('listening');
+        micButton.textContent = '🎤 Speak';
+        userInput.disabled = false;
+        sendButton.disabled = false;
+      };
+
+      recognition.onend = () => {
+        micButton.classList.remove('listening');
+        micButton.textContent = '🎤 Speak';
+        console.log('Speech recognition ended.');
+      };
+
+      try {
+        recognition.start();
+      } catch (e) {
+        console.error("Error starting speech recognition:", e);
+        addMessage("Microphone already in use or error starting. Try reloading the page.", "bot", botAvatar);
+        speak("Microphone already in use or error starting.");
+        userInput.disabled = false;
+        sendButton.disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>
+
+
+
